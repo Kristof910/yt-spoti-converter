@@ -42,21 +42,16 @@ def create_spoti_playlist(token, user_id, playlist_name):
         print(f"Ops, something gone wrong: {e}")
 
 def add_spoti_songs(token, list, playlist_id):
-    access_token = token
+    try:
+        for song in list:
+            headers = {'Authorization': 'Bearer ' + token}
+            search_url = 'https://api.spotify.com/v1/search?q={}&type=track&limit=1'.format(song)
+            response = requests.get(search_url, headers=headers)
+            song_id = response.json()['tracks']['items'][0]['id']
 
-    # List of song names
-    song_list = list
+            headers = {'Authorization': 'Bearer ' + token, 'Content-Type': 'application/json'}
+            add_url = 'https://api.spotify.com/v1/playlists/{}/tracks?uris=spotify:track:{}'.format(playlist_id,song_id)
+            response = requests.post(add_url, headers=headers)
 
-    # Search for songs and add them to the playlist
-    for song in song_list:
-        # Search for song
-        headers = {'Authorization': 'Bearer ' + access_token}
-        search_url = 'https://api.spotify.com/v1/search?q={}&type=track&limit=1'.format(song)
-        response = requests.get(search_url, headers=headers)
-        song_id = response.json()['tracks']['items'][0]['id']
-
-        # Add the song to the playlist
-        headers = {'Authorization': 'Bearer ' + access_token, 'Content-Type': 'application/json'}
-        add_url = 'https://api.spotify.com/v1/playlists/{}/tracks?uris=spotify:track:{}'.format(playlist_id,song_id)
-        response = requests.post(add_url, headers=headers)
-        print(response)
+    except Exception as e:
+        print(f"Ops, something gone wrong: {e}")
