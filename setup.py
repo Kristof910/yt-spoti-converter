@@ -2,5 +2,7 @@
 yt_playlist = ""
 # add your own YT api key
 yt_api_key = ""
-# add your own Spotify api key
-spoti_api_key = ""
+# add your own Spotify developer token
+spoti_token = ""
+# add your own Spotify user ID where you want the playlist to be saved
+spoti_user_id = ""
