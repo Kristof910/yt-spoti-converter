@@ -1,11 +1,21 @@
 from api import *
 import setup
 
-def main():
-    yt_songs = get_yt_songs(setup.yt_api_key, setup.yt_playlist)
-    playlist_id = create_spoti_playlist(setup.spoti_token, setup.spoti_user_id, "YT Converted")
-    add_spoti_songs(setup.spoti_token, yt_songs, playlist_id)
+from flask import Flask, request
+
+app = Flask(__name__)
+
+@app.route("/endpoint", methods=["POST"])
+def endpoint():
+    data = requests.get_json()
+    yt_playlist = ""
+    spoti_token = ""
+    spoti_user_id = ""
+    
+    yt_songs = get_yt_songs(setup.yt_api_key, yt_playlist)
+    playlist_id = create_spoti_playlist(spoti_token, spoti_user_id, "YT Converted")
+    add_spoti_songs(spoti_token, yt_songs, playlist_id)
     
 
 if __name__ == '__main__':
-    main()
+    app.run(debug=True)
