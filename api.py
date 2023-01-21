@@ -21,7 +21,7 @@ def get_yt_songs(api_key, playlist_link):
         return list 
            
     except Exception as e:
-        print(f"Ops, something gone wrong: {e}")
+        print(f"Ops, something gone wrong in get_yt_songs: {e}")
 
 def create_spoti_playlist(token, user_id, playlist_name):
     try:
@@ -39,7 +39,7 @@ def create_spoti_playlist(token, user_id, playlist_name):
         return response.json()['id']
 
     except Exception as e:
-        print(f"Ops, something gone wrong: {e}")
+        print(f"Ops, something gone wrong in create_spoti_playlist: {e}")
 
 def add_spoti_songs(token, list, playlist_id):
     try:
@@ -54,4 +54,4 @@ def add_spoti_songs(token, list, playlist_id):
             response = requests.post(add_url, headers=headers)
 
     except Exception as e:
-        print(f"Ops, something gone wrong: {e}")
+        print(f"Ops, something gone wrong in add_spoti_songs: {e}")
