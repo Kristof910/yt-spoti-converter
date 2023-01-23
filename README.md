@@ -4,6 +4,6 @@ This is a music playlist converter where you can insert a YouTube playlist of yo
 
 Please use the setup.py with your YouTube api key beforehand!
 
-This is the back-end endpoint for the app, you will have to use the front-end service too, here is the link for that:
+This is the back-end endpoint for the app, you will have to use the front-end service too, here is the link for that: https://github.com/Kristof910/yt-spoti-converter-front-end
 
 Thank you!
