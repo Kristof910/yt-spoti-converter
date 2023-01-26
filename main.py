@@ -1,11 +1,30 @@
 from api import *
 import setup
 
-def main():
-    yt_songs = get_yt_songs(setup.yt_api_key, setup.yt_playlist)
-    playlist_id = create_spoti_playlist(setup.spoti_token, setup.spoti_user_id, "YT Converted")
-    add_spoti_songs(setup.spoti_token, yt_songs, playlist_id)
-    
+from flask import Flask, request, jsonify
+
+app = Flask(__name__)
+
+@app.route("/endpoint", methods=["POST"])
+def endpoint():
+    try:
+        if(setup.yt_api_key == ""):
+            raise Exception("setup.py is not filled")
+        
+        data = request.get_json()
+        yt_playlist = data["yt_playlist"]
+        spoti_token = data["spoti_token"]
+        spoti_user_id = data["spoti_user_id"]
+        
+        yt_songs = get_yt_songs(setup.yt_api_key, yt_playlist)
+        playlist_id = create_spoti_playlist(spoti_token, spoti_user_id, "YT Converted")
+        add_spoti_songs(spoti_token, yt_songs, playlist_id)
+        
+        return jsonify({"message" : "data succesfully received"})
+
+    except Exception as e:
+        print(f"Ops something went wrong: {e}")
+        return jsonify({"message" : "an error has occured: "})
 
 if __name__ == '__main__':
-    main()
+    app.run(host='localhost', port=9873)
