@@ -8,6 +8,9 @@ app = Flask(__name__)
 @app.route("/endpoint", methods=["POST"])
 def endpoint():
     try:
+        if(setup.yt_api_key == ""):
+            raise Exception("setup.py is not filled")
+        
         data = request.get_json()
         yt_playlist = data["yt_playlist"]
         spoti_token = data["spoti_token"]
@@ -20,7 +23,8 @@ def endpoint():
         return jsonify({"message" : "data succesfully received"})
 
     except Exception as e:
-        return jsonify({"message" : "an error has occured"})
+        print(f"Ops something went wrong: {e}")
+        return jsonify({"message" : "an error has occured: "})
 
 if __name__ == '__main__':
-    app.run(port=1234)
+    app.run(host='localhost', port=9873)

@@ -32,7 +32,7 @@ def create_spoti_playlist(token, user_id, playlist_name):
 
         playlist_data = {
             "name": playlist_name,
-            "description": "test"
+            "description": "This playlist has been converted from YouTube"
         }
 
         response = requests.post(f"https://api.spotify.com/v1/users/{user_id}/playlists", headers=headers, data=json.dumps(playlist_data))
@@ -45,12 +45,12 @@ def add_spoti_songs(token, list, playlist_id):
     try:
         for song in list:
             headers = {'Authorization': 'Bearer ' + token}
-            search_url = 'https://api.spotify.com/v1/search?q={}&type=track&limit=1'.format(song)
+            search_url = f'https://api.spotify.com/v1/search?q={song}&type=track&limit=1'
             response = requests.get(search_url, headers=headers)
             song_id = response.json()['tracks']['items'][0]['id']
 
             headers = {'Authorization': 'Bearer ' + token, 'Content-Type': 'application/json'}
-            add_url = 'https://api.spotify.com/v1/playlists/{}/tracks?uris=spotify:track:{}'.format(playlist_id,song_id)
+            add_url = f'https://api.spotify.com/v1/playlists/{playlist_id}/tracks?uris=spotify:track:{song_id}'
             response = requests.post(add_url, headers=headers)
 
     except Exception as e:
